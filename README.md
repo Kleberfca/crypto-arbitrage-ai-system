@@ -89,6 +89,154 @@ Sistema profissional de arbitragem de criptomoedas com inteligência artificial,
 │  • Slippage Control                                         │
 └─────────────────────────────────────────────────────────────┘
 ```
+## Estrutura do Projeto - Crypto Arbitrage AI System
+
+crypto-arbitrage-ai-system/
+│
+├── main.py
+├── Dockerfile
+├── setup.sh
+├── README.md                           # Documentação principal
+├── requirements.txt                    # Dependências Python
+├── docker-compose.yml                  # Orquestração de containers
+├── .env.example                        # Exemplo de variáveis de ambiente
+├── .gitignore                          # Arquivos ignorados pelo Git
+│
+├── config/
+│   ├── __init__.py
+│   ├── settings.py                     # Configurações gerais do sistema
+│   ├── exchanges.py                    # Configurações específicas das exchanges
+│   ├── strategies.py                   # Parâmetros das estratégias
+│   └── risk_limits.py                  # Limites de risco
+│
+├── core/
+│   ├── __init__.py
+│   │
+│   ├── data_collector/
+│   │   ├── __init__.py
+│   │   ├── exchange_connector.py       # Conexão WebSocket com exchanges
+│   │   ├── data_normalizer.py          # Normalização de dados
+│   │   ├── orderbook_manager.py        # Gestão de order books
+│   │   └── cache_manager.py            # Interface com Redis
+│   │
+│   ├── arbitrage_engine/
+│   │   ├── __init__.py
+│   │   ├── base_arbitrage.py           # Classe base para estratégias
+│   │   ├── spatial_arbitrage.py        # Arbitragem entre exchanges
+│   │   ├── statistical_arbitrage.py    # Pairs trading e mean reversion
+│   │   ├── triangular_arbitrage.py     # Ciclos triangulares
+│   │   └── opportunity_detector.py     # Detecção de oportunidades
+│   │
+│   ├── feature_engineering/
+│   │   ├── __init__.py
+│   │   ├── feature_extractor.py        # Extração de 50+ features
+│   │   ├── price_features.py           # Features baseadas em preço
+│   │   ├── volume_features.py          # Features de volume
+│   │   ├── orderbook_features.py       # Features do order book
+│   │   ├── technical_indicators.py     # Indicadores técnicos
+│   │   └── network_features.py         # Features de rede (gas, congestion)
+│   │
+│   ├── ai_engine/
+│   │   ├── __init__.py
+│   │   ├── ensemble_model.py           # Ensemble de modelos ML
+│   │   ├── xgboost_model.py            # Modelo XGBoost
+│   │   ├── lstm_model.py               # Modelo LSTM
+│   │   ├── transformer_model.py        # Modelo Transformer
+│   │   ├── model_trainer.py            # Treinamento de modelos
+│   │   └── online_learning.py          # Aprendizado online
+│   │
+│   ├── xai_engine/
+│   │   ├── __init__.py
+│   │   ├── shap_explainer.py           # SHAP values
+│   │   ├── lime_explainer.py           # LIME explanations
+│   │   ├── decision_visualizer.py      # Visualização de decisões
+│   │   └── confidence_calculator.py    # Cálculo de confiança
+│   │
+│   ├── execution_engine/
+│   │   ├── __init__.py
+│   │   ├── order_manager.py            # Gestão de ordens
+│   │   ├── pre_funding_manager.py      # Gestão de pre-funding
+│   │   ├── execution_optimizer.py      # Otimização de execução
+│   │   └── slippage_controller.py      # Controle de slippage
+│   │
+│   ├── risk_management/
+│   │   ├── __init__.py
+│   │   ├── risk_calculator.py          # Cálculo de métricas de risco
+│   │   ├── position_sizer.py           # Dimensionamento de posições
+│   │   ├── correlation_monitor.py      # Monitoramento de correlações
+│   │   └── adaptive_limits.py          # Limites adaptativos
+│   │
+│   ├── backtesting/
+│   │   ├── __init__.py
+│   │   ├── backtest_engine.py          # Motor de backtesting
+│   │   ├── walk_forward.py             # Walk-forward optimization
+│   │   ├── monte_carlo.py              # Simulações Monte Carlo
+│   │   └── stress_testing.py           # Testes de stress
+│   │
+│   └── monitoring/
+│       ├── __init__.py
+│       ├── metrics_collector.py        # Coleta de métricas
+│       ├── performance_tracker.py      # Tracking de performance
+│       ├── alert_manager.py            # Sistema de alertas
+│       └── prometheus_exporter.py      # Exportador Prometheus
+│
+├── api/
+│   ├── __init__.py
+│   ├── main.py                         # FastAPI application
+│   ├── routes/
+│   │   ├── __init__.py
+│   │   ├── strategies.py               # Endpoints de estratégias
+│   │   ├── monitoring.py               # Endpoints de monitoramento
+│   │   ├── execution.py                # Endpoints de execução
+│   │   └── analysis.py                 # Endpoints de análise
+│   └── models/
+│       ├── __init__.py
+│       ├── requests.py                 # Modelos de request
+│       └── responses.py                # Modelos de response
+│
+├── scripts/
+│   ├── train_ensemble.py               # Script para treinar ensemble
+│   ├── backtest_strategies.py          # Script de backtesting
+│   ├── optimize_parameters.py          # Otimização de parâmetros
+│   ├── health_check.py                 # Verificação de saúde
+│   └── monitor_performance.py          # Monitoramento de performance
+│
+├── tests/
+│   ├── __init__.py
+│   ├── unit/
+│   │   ├── test_exchange_connector.py
+│   │   ├── test_spatial_arbitrage.py
+│   │   ├── test_feature_extractor.py
+│   │   └── test_risk_management.py
+│   ├── integration/
+│   │   ├── test_data_flow.py
+│   │   ├── test_execution_flow.py
+│   │   └── test_ml_pipeline.py
+│   └── performance/
+│       ├── test_latency.py
+│       ├── test_throughput.py
+│       └── test_feature_extraction.py
+│
+├── data/
+│   ├── models/                         # Modelos ML salvos
+│   ├── features/                       # Features pré-calculadas
+│   ├── backtest/                       # Dados de backtesting
+│   └── logs/                           # Logs do sistema
+│
+├── notebooks/
+│   ├── strategy_analysis.ipynb         # Análise de estratégias
+│   ├── feature_exploration.ipynb       # Exploração de features
+│   ├── model_evaluation.ipynb          # Avaliação de modelos
+│   └── performance_analysis.ipynb      # Análise de performance
+│
+└── deployment/
+    ├── kubernetes/                      # Manifests K8s
+    ├── terraform/                       # Infraestrutura como código
+    └── monitoring/                      # Dashboards Grafana
+        ├── strategy_overview.json
+        ├── ml_performance.json
+        ├── risk_analytics.json
+        └── system_health.json
 
 ## 🚀 Quick Start
 
